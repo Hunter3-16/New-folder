@@ -1,4 +1,5 @@
 const { spawn } = require('child_process');
+require('dotenv').config();
 
 const services = [
   { name: 'User Service', script: './services/userService.js', port: 3001 },
