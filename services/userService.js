@@ -12,6 +12,18 @@ app.use(logger);
 // Connect to MongoDB
 connectDB();
 
+// Create a new user
+app.post('/create-user', async (req, res, next) => {
+  try {
+    const { fullName, mobileNumber, dateOfBirth, age, gender, username } = req.body;
+    const newUser = new User({ fullName, mobileNumber, dateOfBirth, age, gender, username, ratings: [], orders: [] });
+    await newUser.save();
+    res.status(201).json({ message: 'User created', userId: newUser._id });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Get a list of all restaurants available online at the given hour
 app.get('/restaurants', async (req, res, next) => {
   try {

@@ -13,6 +13,18 @@ app.use(logger);
 // Connect to MongoDB
 connectDB();
 
+// Create a new restaurant
+app.post('/create-restaurant', async (req, res, next) => {
+  try {
+    const { fullName, mobileNumber, address, menu, status } = req.body;
+    const newRestaurant = new Restaurant({ fullName, mobileNumber, address, menu, status, orders: [] });
+    await newRestaurant.save();
+    res.status(201).json({ message: 'Restaurant created', restaurantId: newRestaurant._id });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // Get a list of all restaurants available online at the given hour
 app.get('/restaurants', async (req, res, next) => {
   try {
